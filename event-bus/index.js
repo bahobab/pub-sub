@@ -16,12 +16,23 @@ app.post('/events', (req, res) => {
 
   events.push(event);
 
-  axios.post('http://localhost:4000/events', event);
-  axios.post('http://localhost:4001/events', event);
-  axios.post('http://localhost:4002/events', event);
-  axios.post('http://localhost:4003/events', event);
+  axios.post('http://posts-clusterip-srv:4000/events', event).catch((err) => {
+    console.log('POSTING', err.message);
+  });
+  // axios.post('http://localhost:4001/events', event).catch((err) => {
+  //   console.log('POSTING', err.message);
+  // });
+  // axios.post('http://localhost:4002/events', event).catch((err) => {
+  //   console.log('POSTING', err.message);
+  // });
+  // axios.post('http://localhost:4003/events', event).catch((err) => {
+  //   console.log('POSTING', err.message);
+  // });
+
+  res.status(200).send({});
 })
 
 app.listen(4005, () => {
+  console.log('EVENT-BUS V3');
   console.log('Event Server listening on port 2005');
 });
