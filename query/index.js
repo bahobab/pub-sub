@@ -41,6 +41,7 @@ const handleEvent = (type, data) => {
 
 app.post('/events', (req, res) => {
   const { type, data } = req.body;
+  console.log('QUERY:', type)
 
   handleEvent(type, data);
 
@@ -53,9 +54,14 @@ app.get('/posts', (req, res) => {
 })
 
 app.listen(4002, async () => {
-  console.log("Query service listening on port 4002");
+  console.log('QUERY V2');
+  console.log("Query: listening on port 4002");
 
-  const res = await axios.get('http://localhost:4005/events');
+  const res = await axios.get('event-bus-srv:4005/events');
+  console.log('Querying for events', res.data)
+    .catch((err) => {
+    console.log('POSTING', err.message);
+  });
 
   for (let event of res.data) {
     console.log('Processing event:', event.type);

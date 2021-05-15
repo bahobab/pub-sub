@@ -14,7 +14,7 @@ app.post('/events', async (req, res) => {
     // console.log(data.comment);
     const status = comment.includes('orange') ? 'rejected' : 'approved';
     const moderatedEvent = {
-      type: 'EventModerated',
+      type: 'CommentModerated',
       data: {
         comment: {
           id,
@@ -25,7 +25,7 @@ app.post('/events', async (req, res) => {
       },
     }
     
-    await axios.post('http://localhost:4005/events', moderatedEvent);
+    await axios.post('http://event-bus-srv:4005/events', moderatedEvent);
 
     console.log('moderated',moderatedEvent);
 
@@ -34,5 +34,5 @@ app.post('/events', async (req, res) => {
 });
 
 app.listen(4003, () => {
-  console.log('Moderation listening on port 4003');
+  console.log('Moderation: listening on port 4003');
 });

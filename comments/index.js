@@ -60,7 +60,7 @@ app.post('/posts/:id/comments', async (req, res) => {
 
   commentsByPostId[req.params.id] = comments;
 
-  await axios.post('http://localhost:4005/events', { type: 'CommentCreated', data: {comment, postId: req.params.id} });
+  await axios.post('http://event-bus-srv:4005/events', { type: 'CommentCreated', data: {comment, postId: req.params.id} });
 
   res.status(201).send(comments);
 });
@@ -81,7 +81,7 @@ app.post('/events', async (req, res) => {
 
     updatedComment.status = status;
 
-    await axios.post('http://localhost:4005', {
+    await axios.post('http://event-bus-srv:4005/events', {
       type: 'CommentUpdated',
       data: {
         comment: updatedComment,
@@ -94,7 +94,7 @@ app.post('/events', async (req, res) => {
 })
 
 app.listen(4001, () => {
-  console.log('Listening on 4001');
+  console.log('Comment: Listening on 4001');
 });
 
 // https://leetcode.com/problems/basic-calculator/
